@@ -138,3 +138,4 @@ if __name__ == "__main__":
     else:
         df.to_csv("./skipgram.csv", index=False)
     print("Saved logging.")
+    
