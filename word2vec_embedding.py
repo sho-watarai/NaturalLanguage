@@ -79,3 +79,4 @@ if __name__ == "__main__":
     word_analogy("葉月", "蓮", "仁", word2id, id2word, E)
 
     word_embedding(E)
+    
