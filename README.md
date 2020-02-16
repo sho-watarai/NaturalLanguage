@@ -1,4 +1,4 @@
-# Word2Vec
+Word2Vec
 ==========
 
 Natural Language : Word2Vec
