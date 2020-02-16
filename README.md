@@ -9,6 +9,6 @@ Natural Language : Word2Vec
 
 [Natural Language : Word2Vec Part3 - CBOW model](https://qiita.com/sho_watari/items/58212bb579c4a60712d3)
 
-##Word2Vec
+## Word2Vec
 
 ![word2vec](word2vec.png "CBOW and Skip-gram")
