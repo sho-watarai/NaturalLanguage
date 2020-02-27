@@ -6,7 +6,7 @@ from cntk.layers import Embedding
 from cntkx.learners import CyclicalLearningRate
 from pandas import DataFrame
 
-CBOW = False
+is_CBOW = False
 
 num_hidden = 300
 num_word = 6253
@@ -18,7 +18,7 @@ allow_duplicates = False
 
 epoch_size = 10
 minibatch_size = 128
-if CBOW:
+if is_CBOW:
     num_samples = 28164  # CBOW
 else:
     num_samples = 281640  # Skip-gram
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     #
     # built-in reader
     #
-    if CBOW:
+    if is_CBOW:
         train_reader = create_reader("./corpus_cbow.txt", True)
     else:
         train_reader = create_reader("./corpus_skipgram.txt", True)
@@ -71,7 +71,7 @@ if __name__ == "__main__":
     #
     # input, label and embed
     #
-    if CBOW:
+    if is_CBOW:
         input = C.sequence.input_variable(shape=(num_word,))
         label = C.input_variable(shape=(num_word,), is_sparse=True)
         embed = C.sequence.reduce_sum(Embedding(num_hidden)(input)) / (num_window * 2)
@@ -126,14 +126,14 @@ if __name__ == "__main__":
     #
     # save model and logging
     #
-    if CBOW:
+    if is_CBOW:
         model.save("./cbow.model")
     else:
         model.save("./skipgram.model")
     print("Saved model.")
 
     df = DataFrame(logging)
-    if CBOW:
+    if is_CBOW:
         df.to_csv("./cbow.csv", index=False)
     else:
         df.to_csv("./skipgram.csv", index=False)
