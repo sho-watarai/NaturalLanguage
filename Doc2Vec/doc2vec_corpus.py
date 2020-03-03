@@ -1,7 +1,6 @@
 import glob
 import MeCab
 import nltk
-import numpy as np
 import pickle
 import re
 
