@@ -1,6 +1,6 @@
 # Word2Vec
 
-Word2Vec : Skip-gram and CBOW
+Natural Language : Word2Vec - Skip-gram and CBOW
 
 ## Word2Vec
 
