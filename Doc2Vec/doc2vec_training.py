@@ -22,8 +22,8 @@ def create_reader(path, is_train):
 
 
 def doc2vec(h):
-    h = Embedding(num_hidden)(h)  # embedding layer
-    h = Cx.sequence.reduce_mean(h)  # average
+    h = Embedding(num_hidden)(h)
+    h = Cx.sequence.reduce_mean(h)
     h = Dense(num_classes, activation=C.sigmoid)(h)
     return h
 
