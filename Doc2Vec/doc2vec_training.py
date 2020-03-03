@@ -14,11 +14,11 @@ minibatch_size = 1024
 num_samples = 7277
 
 
-def create_reader(path, train):
+def create_reader(path, is_train):
     return C.io.MinibatchSource(C.io.CTFDeserializer(path, C.io.StreamDefs(
         words=C.io.StreamDef(field="word", shape=num_word, is_sparse=True),
         labels=C.io.StreamDef(field="label", shape=num_word, is_sparse=True))),
-                                randomize=train, max_sweeps=C.io.INFINITELY_REPEAT if train else 1)
+                                randomize=is_train, max_sweeps=C.io.INFINITELY_REPEAT if is_train else 1)
 
 
 def doc2vec(h):
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     #
     # built-in reader
     #
-    train_reader = create_reader("./train_doc2vec_map.txt", True)
+    train_reader = create_reader("./train_doc2vec_map.txt", is_train=True)
 
     #
     # input, label and model
