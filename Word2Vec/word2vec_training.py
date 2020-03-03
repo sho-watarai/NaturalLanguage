@@ -26,11 +26,11 @@ else:
 step_size = num_samples // minibatch_size * 2
 
 
-def create_reader(path, train):
+def create_reader(path, is_train):
     return C.io.MinibatchSource(C.io.CTFDeserializer(path, C.io.StreamDefs(
         words=C.io.StreamDef(field="word", shape=num_word, is_sparse=True),
         targets=C.io.StreamDef(field="target", shape=num_word, is_sparse=True))),
-                                randomize=train, max_sweeps=C.io.INFINITELY_REPEAT if train else 1)
+                                randomize=is_train, max_sweeps=C.io.INFINITELY_REPEAT if is_train else 1)
 
 
 def sampled_softmax(hidden_vector, target_vector, num_word, num_hidden, sample_size, sampling_weights):
@@ -64,9 +64,9 @@ if __name__ == "__main__":
     # built-in reader
     #
     if is_CBOW:
-        train_reader = create_reader("./corpus_cbow.txt", True)
+        train_reader = create_reader("./corpus_cbow.txt", is_train=True)
     else:
-        train_reader = create_reader("./corpus_skipgram.txt", True)
+        train_reader = create_reader("./corpus_skipgram.txt", is_train=True)
 
     #
     # input, label and embed
