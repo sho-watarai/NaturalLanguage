@@ -16,7 +16,7 @@ sample_size = 5
 sampling_weights = np.power(np.load("./sampling_weights.npy"), 0.75).reshape(1, num_word)
 allow_duplicates = False
 
-epoch_size = 10
+epoch_size = 100
 minibatch_size = 128
 if is_CBOW:
     num_samples = 28164  # CBOW
