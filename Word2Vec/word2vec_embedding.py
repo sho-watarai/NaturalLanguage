@@ -42,7 +42,7 @@ def word_similarity(query, word2id, id2word, embedding, topN=5):
         print("%s\t:%.2f" % (id2word[i], similarity[i]))
 
 
-def word_analogy(a, b, c, word2id, id2word, embedding, topN=5, answer=None):
+def word_analogy(a, b, c, word2id, id2word, embedding, topN=5):
     for word in (a, b, c):
         if word not in word2id:
             print("%s is not found" % word)
@@ -54,9 +54,6 @@ def word_analogy(a, b, c, word2id, id2word, embedding, topN=5, answer=None):
     query_vec /= np.sqrt(query_vec * query_vec).sum()
 
     similarity = np.dot(embedding, query_vec)
-
-    if answer is not None:
-        print("==>" + answer + ":" + str(np.dot(embedding[word2id[answer]], query_vec)))
 
     topN_id = similarity.argsort()[::-1][1:(topN + 4)]
     for j, i in enumerate(topN_id):
