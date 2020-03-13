@@ -88,7 +88,7 @@ if __name__ == "__main__":
     model, loss, errs = sampled_softmax(embed, label, num_word, num_hidden, sample_size, sampling_weights)
 
     #
-    # training setting
+    # optimizer
     #
     learner = C.adam(model.parameters, lr=0.01, momentum=0.9)
     clr = CyclicalLearningRate(learner, base_lrs=1e-4, max_lrs=0.01, minibatch_size=minibatch_size, step_size=step_size)
