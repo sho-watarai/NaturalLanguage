@@ -8,7 +8,7 @@ from pandas import DataFrame
 
 is_CBOW = False
 
-num_hidden = 300
+num_hidden = 100
 num_word = 6253
 num_window = 5
 
