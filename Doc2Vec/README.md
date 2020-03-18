@@ -1,6 +1,6 @@
 # Doc2Vec
 
-Natural Language : Doc2Vec - Document Classification
+Doc2Vec - Document Classification
 
 ## Doc2Vec
 
