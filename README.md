@@ -2,7 +2,7 @@
 
 ## BERT
 
-
+BERT - 
 
 ## Doc2Vec
 
