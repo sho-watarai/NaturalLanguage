@@ -151,7 +151,7 @@ if __name__ == "__main__":
     print("Skip-gram")
 
     num_samples = 0
-    with open("./corpus_skipgram.txt", "w") as word_file:
+    with open("./skipgram_corpus.txt", "w") as word_file:
         for i in range(len(words)):
             for j in range(num_window * 2):
                 word_file.write("|word {}:1\t|target {}:1\n".format(words[i], targets[i, j]))
