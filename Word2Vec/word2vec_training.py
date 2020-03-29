@@ -64,9 +64,9 @@ if __name__ == "__main__":
     # built-in reader
     #
     if is_CBOW:
-        train_reader = create_reader("./corpus_cbow.txt", is_train=True)
+        train_reader = create_reader("./cbow_corpus.txt", is_train=True)
     else:
-        train_reader = create_reader("./corpus_skipgram.txt", is_train=True)
+        train_reader = create_reader("./skipgram_corpus.txt", is_train=True)
 
     #
     # input, label and embed
