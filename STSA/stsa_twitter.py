@@ -95,8 +95,7 @@ if __name__ == "__main__":
     stream = tweepy.Stream(auth, listener)
 
     stream.filter(languages=["ja"],
-                  track=["I", "you", "http", "www", "co", "@", "#", "。", "，", "！", ".", "!", ",", ":", "：", "』",
-                         ")", "..."])
+                  track=["I", "you", "http", "www", "co", "@", "#", "。", "，", "！", ".", "!", ",", ":", "：", "』", ")", "..."])
     
     try:
         while True:
