@@ -16,8 +16,6 @@ UNK = "<UNK>"
 neologd_path = "C:/Users/usr/AppData/Local/Packages/KaliLinux.54290C8133FEE_ey8k8hqnwqnmg/LocalState/rootfs" \
                "/usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd"
 
-max_seq_len = 70
-
 
 class MeCabTokenizer:
     def __init__(self):
@@ -27,7 +25,10 @@ class MeCabTokenizer:
         return self.tokenizer.parse(string).split(" ")[:-1]
 
 
-def text_cleaning(s):
+def text_cleaning(s, verbose=False):
+    if verbose:
+        print("Before", s)
+
     #
     # twitter specific
     #
@@ -63,6 +64,9 @@ def text_cleaning(s):
 
     s = re.sub(r"[^a-z0-9ぁ-んァ-ン一-龥、。！？ー…＆／]", "", s)
 
+    if verbose:
+        print("After", s)
+
     return s
 
 
@@ -91,16 +95,16 @@ def create_word2id(captions):
 if __name__ == "__main__":
     mecab = MeCabTokenizer()
 
-    corpus = []
+    corous = []
     file_list = glob.glob(dir_file + "/*.txt")
     for file in file_list:
         with open(file, encoding="UTF-8") as f:
-            courpus += f.readlines()
-    print("Number of tweet and reply:", len(corpus) // 2)
+            corous += f.readlines()
+    print("Number of tweet and reply:", len(corous) // 2)
     print()
 
     tweet_list = []
-    for t in corpus:
+    for t in corous:
         t = text_cleaning(t)
         
         word_list = mecab.tokenize(t)
@@ -130,12 +134,12 @@ if __name__ == "__main__":
         tweet1 = tweet_list[2 * idx]
         tweet2 = tweet_list[2 * idx + 1]
 
-        if 2 < len(tweet1) < max_seq_len and 2 < len(tweet2) < max_seq_len:
+        if 2 < len(tweet1) and 2 < len(tweet2):
             tweet = [word2id[w] if w in word2id else word2id[UNK] for w in tweet1]
             reply = [word2id[w] if w in word2id else word2id[UNK] for w in tweet2]
             
             tweet_reply.append([tweet, reply[:-1], reply[1:]])
-    
+
     #
     # tweet, reply, and target
     #
