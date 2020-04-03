@@ -141,18 +141,18 @@ if __name__ == "__main__":
             tweet_reply.append([tweet, reply[:-1], reply[1:]])
 
     #
-    # tweet, reply, and target
+    # tweet and reply
     #
     num_samples = 0
     with open("./tweet_reply_corpus.txt", "w") as ctf_file:
         for i, (tweet, reply, target) in enumerate(tweet_reply):
-            for (twt, rep, trg) in zip_longest(tweet, reply, target, fillvalue=""):
+            for (twt, rep) in zip_longest(tweet, reply, fillvalue=""):
                 if twt == "":
-                    ctf_file.write("{} |decode {}:1\t|target {}:1\n".format(i, rep, trg))
+                    ctf_file.write("{} |reply {}:1\n".format(i, rep))
                 elif rep == "":
-                    ctf_file.write("{} |encode {}:1\n".format(i, twt))
+                    ctf_file.write("{} |tweet {}:1\n".format(i, twt))
                 else:
-                    ctf_file.write("{} |encode {}:1\t|decode {}:1\t|target {}:1\n".format(i, twt, rep, trg))
+                    ctf_file.write("{} |tweet {}:1\t|reply {}:1\n".format(i, twt, rep))
 
             num_samples += 1
             if num_samples % 10000 == 0:
