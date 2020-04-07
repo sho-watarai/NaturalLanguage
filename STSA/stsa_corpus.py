@@ -76,7 +76,7 @@ def create_word2id(captions):
         counter.update(c)
 
     print("Number of total words:", len(counter))
-    word_counts = [x for x in counter.items() if x[1] >= 5]  # less 10 count word is not common word
+    word_counts = [x for x in counter.items() if x[1] >= 10]  # less 10 count word is not common word
     word_counts.sort(key=lambda x: x[1], reverse=True)
     print("Number of words:", len(word_counts) + 1)  # plus 1 is <UNK>
     word_list = [x[0] for x in word_counts]
