@@ -8,8 +8,8 @@ from pandas import DataFrame
 
 is_CBOW = False
 
-num_hidden = 100
-num_word = 6253
+num_hidden = 30
+num_word = 3369
 num_window = 5
 
 sample_size = 5
@@ -19,9 +19,9 @@ allow_duplicates = False
 epoch_size = 100
 minibatch_size = 128
 if is_CBOW:
-    num_samples = 28164  # CBOW
+    num_samples = 31000  # CBOW
 else:
-    num_samples = 281640  # Skip-gram
+    num_samples = 310000  # Skip-gram
 
 step_size = num_samples // minibatch_size * 2
 
@@ -72,11 +72,11 @@ if __name__ == "__main__":
     # input, label and embed
     #
     if is_CBOW:
-        input = C.sequence.input_variable(shape=(num_word,))
+        input = C.sequence.input_variable(shape=(num_word,), is_sparse=True)
         label = C.input_variable(shape=(num_word,), is_sparse=True)
         embed = C.sequence.reduce_sum(Embedding(num_hidden)(input)) / (num_window * 2)
     else:
-        input = C.input_variable(shape=(num_word,))
+        input = C.input_variable(shape=(num_word,), is_sparse=True)
         label = C.input_variable(shape=(num_word,), is_sparse=True)
         embed = Embedding(num_hidden)(input)
 
