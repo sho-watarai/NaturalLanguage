@@ -90,8 +90,8 @@ if __name__ == "__main__":
     #
     # optimizer
     #
-    learner = C.adam(model.parameters, lr=0.01, momentum=0.9)
-    clr = CyclicalLearningRate(learner, base_lrs=1e-4, max_lrs=0.01, minibatch_size=minibatch_size, step_size=step_size)
+    learner = C.adam(model.parameters, lr=0.001, momentum=0.9)
+    clr = CyclicalLearningRate(learner, base_lrs=1e-4, max_lrs=1e-3, minibatch_size=minibatch_size, step_size=step_size)
     progress_printer = C.logging.ProgressPrinter(tag="Training")
 
     trainer = C.Trainer(model, (loss, errs), [learner], [progress_printer])
