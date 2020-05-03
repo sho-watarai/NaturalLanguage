@@ -101,8 +101,8 @@ if __name__ == "__main__":
         while True:
             try:
                 stream.sample()
-            except:
-                time.sleep(900)
+            except KeyboardInterrupt:
+                break
     finally:
         stream.disconnect()
         print("COMPLETE")
