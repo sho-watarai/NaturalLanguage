@@ -1,8 +1,9 @@
 import cntk as C
 
 num_classes = 9
-num_word = 34861
+num_word = 45044
 
+minibatch_size = 1
 num_samples = 90
 
 
@@ -32,7 +33,6 @@ if __name__ == "__main__":
     #
     errs = C.classification_error(model, label)
 
-    minibatch_size = 1
     sample_count = 0
     error = 0
     while sample_count < num_samples:
