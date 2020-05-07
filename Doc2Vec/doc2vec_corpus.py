@@ -115,6 +115,9 @@ def create_word2id(tokenized):
 
 
 if __name__ == "__main__":
+    #
+    # MeCab with NEologd
+    #
     mecab = MeCabTokenizer()
 
     corpus = []
