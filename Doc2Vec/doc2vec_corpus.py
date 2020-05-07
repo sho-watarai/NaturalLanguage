@@ -1,75 +1,104 @@
 import glob
 import MeCab
-import nltk
 import pickle
 import re
 
 from collections import Counter
 
+NUM = "N"  # number
+UNK = "<UNK>"  # unknown
+
+neologd_path = "C:/Users/user/AppData/Local/Packages/KaliLinux.54290C8133FEE_ey8k8hqnwqnmg/LocalState/rootfs" \
+               "/usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd"
+
 with open("../Word2Vec/stop_words.pkl", "rb") as f:
     stop_words = pickle.load(f)
 
-jp_sent_tokenizer = nltk.RegexpTokenizer("[^　「」！？。]*[！？。]")
-mecab = MeCab.Tagger("mecabrc")
 
-UNK = "<UNK>"  # unknown
+class MeCabTokenizer:
+    def __init__(self):
+        self.tokenizer = MeCab.Tagger("-O wakati -d %s" % neologd_path)
 
-
-def mecab_tokenizer(text):
-    node = mecab.parseToNode(text)
-    word = []
-    while node:
-        if node.feature.startswith("名詞"):
-            word.append(node.surface)
-            node = node.next
-        elif node.feature.startswith("動詞"):
-            word.append(node.surface)
-            node = node.next
-        elif node.feature.startswith("形容詞"):
-            word.append(node.surface)
-            node = node.next
-        else:
-            node = node.next
-    return word
-
-
-def text_cleaning(text):
-    text_list = []
-    for t in text:
-        t = re.sub("\u3000|\n|、|…", "", t)
-        if t == "":
-            continue
-        else:
-            text_list.append(t)
-    return text_list
-
-
-def sentence_tokenized(text_list):
-    sent_list = []
-    for t in text_list:
-        sentences = jp_sent_tokenizer.tokenize(t)
-        for s in sentences:
-            sent_list.append(s)
-    return sent_list
-
-
-def word_tokenized(sent_list):
-    tokenized_list = []
-    for s in sent_list:
-        word_list = []
-        tokenized_words = mecab_tokenizer(s)
-        for w in tokenized_words:  # remove stop words
-            if w in stop_words:
-                continue
+    def tokenize(self, string):
+        #
+        # noun, verb, and adjectives
+        #
+        node = self.tokenizer.parseToNode(string)
+        word = []
+        while node:
+            if node.feature.startswith("名詞"):
+                word.append(node.surface)
+                node = node.next
+            elif node.feature.startswith("動詞"):
+                word.append(node.surface)
+                node = node.next
+            elif node.feature.startswith("形容詞"):
+                word.append(node.surface)
+                node = node.next
             else:
-                word_list.append(w)
-        tokenized_list.append(word_list)
+                node = node.next
+
+        return word
+
+
+def text_cleaning(s):
+    #
+    # livedoor specific
+    #
+    s = re.sub(r"\u3000|\n|\t", "", s)  # remove indent, newline, and tab
+    s = re.sub(r"http\S+", "", s)  # remove html
+    s = re.sub("[0-9].*", "", s)  # remove time
+
+    #
+    # normalization
+    #
+    s = re.sub("[˗֊‐‑‒–⁃⁻₋−]+", "-", s)  # normalize hyphens
+    s = re.sub("[﹣－ｰ—―─━ー]+", "ー", s)  # normalize choonpus
+    s = re.sub("[~∼∾〜〰～]", "", s)  # remove tildes
+
+    s = s.lower()  # normalize alphabet to lowercase
+    s = s.translate({ord(x): ord(y) for x, y in zip(  # normalize half-width symbols to full-width symbols
+        "!\"#$%&'()*+,-./:;<=>?@[¥]^_`{|}~｡､･｢｣",
+        "！”＃＄％＆’（）＊＋，－．／：；＜＝＞？＠［￥］＾＿｀｛｜｝〜。、・「」")})
+
+    #
+    # reduce redundancy
+    #
+    s = re.sub(r"！+", "！", s)
+    s = re.sub(r"？？+", "？", s)
+    s = re.sub(r"…+", "…", s)
+    s = re.sub(r"w+w", "。", s)
+
+    return s
+
+
+def document_preprocessing(text, label):
+    tokenized_list = []
+    for t in text:
+        t = text_cleaning(t)  # text cleaning
+
+        if not t:
+            continue
+
+        word_list = mecab.tokenize(t)  # word tokenized
+
+        word_list = [re.sub(r"[0-9]+|[0-9].+[0-9]", NUM, word) for word in word_list]  # word normalization
+
+        for w in word_list:
+            if w in stop_words:
+                word_list.remove(w)  # remove stop words
+
+        for w in word_list:
+            tokenized_list.append(w)
+
+    tokenized_list.append(label)  # class label
+
     return tokenized_list
 
 
-def create_word2id(token_list):
+def create_word2id(tokenized):
     counter = Counter()
-    for t in token_list:
+    for t in tokenized:
         counter.update(t)
 
     print("Number of total words:", len(counter))
@@ -82,18 +111,20 @@ def create_word2id(token_list):
     word2id = dict([(x, y) for (y, x) in enumerate(word_list)])
     id2word = dict([(x, y) for (x, y) in enumerate(word_list)])
 
-    return word2id, id2word, counter
+    return word2id, id2word
 
 
 if __name__ == "__main__":
-    """ livedoor NEWS Corpus """
+    mecab = MeCabTokenizer()
+
     corpus = []
     document_train = []
     document_val = []
 
     dir_list = glob.glob("./text/*")
     dir_list = [dir_name for dir_name in dir_list if not dir_name.endswith("txt")]
-    for i, dir_file in enumerate(dir_list):
+
+    for label, dir_file in enumerate(dir_list):
         file_list = glob.glob(dir_file + "/*.txt")
         file_list = [file for file in file_list if not "LICENSE" in file]  # remove LICENSE.txt
 
@@ -101,46 +132,30 @@ if __name__ == "__main__":
         # training data
         #
         for file in file_list[:-10]:
-            with open(file, encoding="UTF-8") as f:
+            with open(file, encoding="utf-8") as f:
                 text = f.readlines()
 
-            text_list = text_cleaning(text)  # text cleaning
-            sent_list = sentence_tokenized(text_list)  # sentence tokenized
-            word_list = word_tokenized(sent_list)  # word tokenized
+            tokenized_list = document_preprocessing(text, label)
 
-            token_list = []
-            for words in word_list:
-                for token in words:
-                    token_list.append(token)
-            token_list.append(i)
-
-            corpus.append(token_list[:-1])
-            document_train.append(token_list)
+            corpus.append(tokenized_list[:-1])
+            document_train.append(tokenized_list)
 
         #
         # validation data
         #
         for file in file_list[-10:]:
-            with open(file, encoding="UTF-8") as f:
+            with open(file, encoding="utf-8") as f:
                 text = f.readlines()
 
-            text_list = text_cleaning(text)  # text cleaning
-            sent_list = sentence_tokenized(text_list)  # sentence tokenized
-            word_list = word_tokenized(sent_list)  # word tokenized
+            tokenized_list = document_preprocessing(text, label)
 
-            token_list = []
-            for words in word_list:
-                for token in words:
-                    token_list.append(token)
-            token_list.append(i)
-
-            document_val.append(token_list)
+            document_val.append(tokenized_list)
 
     #
     # word2id and id2word dictionary
     #
-    word2id, id2word, _ = create_word2id(corpus)
-    
+    word2id, id2word = create_word2id(corpus)
+
     with open("word2id.pkl", "wb") as f:
         pickle.dump(word2id, f)
     print("\nSaved word2id.")
@@ -150,7 +165,7 @@ if __name__ == "__main__":
     print("Saved id2word.\n")
 
     #
-    # document2id
+    # doc2id
     #
     doc_train = []
     for doc in document_train:
@@ -165,7 +180,7 @@ if __name__ == "__main__":
         doc_val.append(doc2id)
 
     #
-    # word and label
+    # document and label
     #
     num_samples = 0
     with open("./train_doc2vec_map.txt", "w") as map_file:
@@ -189,5 +204,5 @@ if __name__ == "__main__":
 
             num_samples += 1
 
-    print("\nNumber of validation samples", num_samples)
+    print("Number of validation samples", num_samples)
     
