@@ -8,7 +8,7 @@ BERT -
 
 Doc2Vec - Document Classication
 
-<img src="Doc2Vec/doc2vec.png">
+<img src="Doc2Vec/confusion_matrix.png">
 
 ## STSA
 
@@ -22,4 +22,4 @@ Transformer -
 
 Word2Vec - CBOW and Skip-gram
 
-<img src="Word2Vec/word2vec.png">
+<img src="Word2Vec/word_embedding.png">
