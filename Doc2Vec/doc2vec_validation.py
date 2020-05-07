@@ -33,6 +33,9 @@ if __name__ == "__main__":
     #
     errs = C.classification_error(model, label)
 
+    #
+    # validation
+    #
     sample_count = 0
     error = 0
     while sample_count < num_samples:
