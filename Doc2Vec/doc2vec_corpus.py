@@ -159,11 +159,11 @@ if __name__ == "__main__":
     #
     word2id, id2word = create_word2id(corpus)
 
-    with open("word2id.pkl", "wb") as f:
+    with open("./word2id.pkl", "wb") as f:
         pickle.dump(word2id, f)
     print("\nSaved word2id.")
 
-    with open("id2word.pkl", "wb") as f:
+    with open("./id2word.pkl", "wb") as f:
         pickle.dump(id2word, f)
     print("Saved id2word.\n")
 
