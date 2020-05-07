@@ -51,7 +51,7 @@ if __name__ == "__main__":
     errs = C.classification_error(model, label)
 
     #
-    # training setting
+    # optimizer
     #
     learner = C.adam(model.parameters, lr=0.01, momentum=0.9)
     progress_printer = C.logging.ProgressPrinter(tag="Training")
@@ -60,6 +60,9 @@ if __name__ == "__main__":
 
     C.logging.log_number_of_parameters(model)
 
+    #
+    # training
+    #
     logging = {"epoch": [], "loss": [], "error": []}
     for epoch in range(epoch_size):
         sample_count = 0
