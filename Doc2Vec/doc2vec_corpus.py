@@ -91,7 +91,7 @@ def document_preprocessing(text, label):
         for w in word_list:
             tokenized_list.append(w)
 
-    tokenized_list.append(label)  # class label
+    tokenized_list.append(label)  # category label
 
     return tokenized_list
 
