@@ -8,8 +8,8 @@ from collections import Counter
 neologd = "C:/Users/user/AppData/Local/Packages/KaliLinux.54290C8133FEE_ey8k8hqnwqnmg/LocalState" \
           "/rootfs/usr/lib/x86_64-linux-gnu/mecab/dic/mecab-ipadic-neologd"
 
-NUM = "N"
-UNK = "<UNK>"
+NUM = "N"  # number
+UNK = "<UNK>"  # unknown
 
 with open("./stop_words.pkl", "rb") as f:
     stop_words = pickle.load(f)
@@ -222,3 +222,4 @@ if __name__ == "__main__":
                 print("Now %d samples..." % num_samples)
 
     print("\nNumber of samples", num_samples)
+    
