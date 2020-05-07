@@ -3,12 +3,11 @@ import numpy as np
 import os
 
 from cntk.layers import Embedding
-from cntkx.learners import CyclicalLearningRate
 from pandas import DataFrame
 
 is_CBOW = False
 
-num_hidden = 30
+num_hidden = 100
 num_word = 3369
 num_window = 5
 
@@ -22,8 +21,6 @@ if is_CBOW:
     num_samples = 31000  # CBOW
 else:
     num_samples = 310000  # Skip-gram
-
-step_size = num_samples // minibatch_size * 2
 
 
 def create_reader(path, is_train):
@@ -91,13 +88,15 @@ if __name__ == "__main__":
     # optimizer
     #
     learner = C.adam(model.parameters, lr=0.001, momentum=0.9)
-    clr = CyclicalLearningRate(learner, base_lrs=1e-4, max_lrs=1e-3, minibatch_size=minibatch_size, step_size=step_size)
     progress_printer = C.logging.ProgressPrinter(tag="Training")
 
     trainer = C.Trainer(model, (loss, errs), [learner], [progress_printer])
 
     C.logging.log_number_of_parameters(model)
 
+    #
+    # training
+    #
     logging = {"epoch": [], "loss": [], "error": []}
     for epoch in range(epoch_size):
         sample_count = 0
@@ -108,21 +107,20 @@ if __name__ == "__main__":
 
             trainer.train_minibatch(data)
 
-            clr.batch_step()
-
-            sample_count += minibatch_size
-            epoch_loss += trainer.previous_minibatch_loss_average
-            epoch_metric += trainer.previous_minibatch_evaluation_average
+            minibatch_count = data[input].num_sequences
+            sample_count += minibatch_count
+            epoch_loss += trainer.previous_minibatch_loss_average * minibatch_count
+            epoch_metric += trainer.previous_minibatch_evaluation_average * minibatch_count
 
         #
         # loss and error logging
         #
         logging["epoch"].append(epoch + 1)
-        logging["loss"].append(epoch_loss / (num_samples / minibatch_size))
-        logging["error"].append(epoch_metric / (num_samples / minibatch_size))
+        logging["loss"].append(epoch_loss / num_samples)
+        logging["error"].append(epoch_metric / num_samples)
 
         trainer.summarize_training_progress()
-
+    
     #
     # save model and logging
     #
