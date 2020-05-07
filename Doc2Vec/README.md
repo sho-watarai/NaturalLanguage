@@ -6,8 +6,6 @@ Doc2Vec - Document Classification
 
 ## Results
 
-### livedoor news corpus
-
 <p aling="center">
   <img src="doc2vec_matrix.png">
 </p>
