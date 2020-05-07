@@ -7,9 +7,9 @@ from pandas import DataFrame
 
 num_classes = 9
 num_hidden = 100
-num_word = 34861
+num_word = 45044
 
-epoch_size = 300
+epoch_size = 10
 minibatch_size = 1024
 num_samples = 7277
 
@@ -17,7 +17,7 @@ num_samples = 7277
 def create_reader(path, is_train):
     return C.io.MinibatchSource(C.io.CTFDeserializer(path, C.io.StreamDefs(
         words=C.io.StreamDef(field="word", shape=num_word, is_sparse=True),
-        labels=C.io.StreamDef(field="label", shape=num_word, is_sparse=True))),
+        labels=C.io.StreamDef(field="label", shape=num_classes, is_sparse=True))),
                                 randomize=is_train, max_sweeps=C.io.INFINITELY_REPEAT if is_train else 1)
 
 
@@ -38,10 +38,10 @@ if __name__ == "__main__":
     # input, label and model
     #
     input = C.sequence.input_variable(shape=(num_word,), needs_gradient=True)
-    label = C.input_variable(shape=(num_classes,), is_sparse=True)
-    
+    label = C.input_variable(shape=(num_classes,))
+
     model = doc2vec(input)
-    
+
     input_map = {input: train_reader.streams.words, label: train_reader.streams.labels}
 
     #
@@ -70,16 +70,17 @@ if __name__ == "__main__":
 
             trainer.train_minibatch(data)
 
-            sample_count += minibatch_size
-            epoch_loss += trainer.previous_minibatch_loss_average
-            epoch_metric += trainer.previous_minibatch_evaluation_average
+            minibatch_count = data[input].num_sequences
+            sample_count += minibatch_count
+            epoch_loss += trainer.previous_minibatch_loss_average * minibatch_count
+            epoch_metric += trainer.previous_minibatch_evaluation_average * minibatch_count
 
         #
         # loss and error logging
         #
         logging["epoch"].append(epoch + 1)
-        logging["loss"].append(epoch_loss / (num_samples / minibatch_size))
-        logging["error"].append(epoch_metric / (num_samples / minibatch_size))
+        logging["loss"].append(epoch_loss / num_samples)
+        logging["error"].append(epoch_metric / num_samples)
 
         trainer.summarize_training_progress()
 
