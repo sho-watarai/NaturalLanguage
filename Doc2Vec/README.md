@@ -7,5 +7,5 @@ Doc2Vec - Document Classification
 ## Results
 
 <p aling="center">
-  <img src="doc2vec_matrix.png">
+  <img src="confusion_matrix.png">
 </p>
