@@ -14,7 +14,7 @@ Doc2Vec - Document Classication
 
 ## STSA
 
-ChatBot - Sequence To Sequence with Attention
+ChatBot - Sequence To Sequence Attention
 
 ```
 >こんにちは
