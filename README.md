@@ -16,6 +16,24 @@ Doc2Vec - Document Classication
 
 ChatBot - Sequence To Sequence with Attention
 
+```
+>こんにちは
+>> こんにちは!
+>お疲れ様です
+>> おつありです!
+>フォローお願いします
+>> フォローしました!
+>名前は何ですか？
+>> w
+>趣味は何ですか？
+>> 趣味です!
+>今日はいい天気ですね
+>> いい天気ですね!
+>昨日はありがとうございました
+>> こちらこそありがとうございました!
+>quit
+```
+
 ## Transformer
 
 Transformer - 
