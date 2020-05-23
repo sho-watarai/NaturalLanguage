@@ -24,6 +24,6 @@ ChatBot - Sequence To Sequence Attention
 >quit
 ```
 
-<p aling="center">
+<p align="center">
   <img src="attention.png">
 </p>
