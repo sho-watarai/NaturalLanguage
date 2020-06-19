@@ -107,14 +107,14 @@ def stsa_sentencepiece():
         reply.insert(0, BOS)
         reply.append(EOS)
 
-        tweet_reply.append([tweet, reply[:-1], reply[1:]])
+        tweet_reply.append([tweet, reply])
 
     #
     # tweet and reply
     #
     num_samples = 0
     with open("./tweet_reply_corpus.txt", "w") as ctf_file:
-        for i, (tweet, reply, target) in enumerate(tweet_reply):
+        for i, (tweet, reply) in enumerate(tweet_reply):
             for (twt, rep) in zip_longest(tweet, reply, fillvalue=""):
                 if twt == "":
                     ctf_file.write("{} |reply {}:1\n".format(i, rep))
