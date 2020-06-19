@@ -16,7 +16,7 @@ minibatch_size = 2048
 num_samples = 973124
 
 sample_size = 128
-step_size = num_samples // sample_size * 4
+step_size = num_samples // sample_size * 10
 
 
 class SentencePiece:
