@@ -2,6 +2,8 @@
 
 Machine Translation - Neural Machine Translation Transformer
 
-<img src="transformer.png" align="center">
+<p  align="center">
+  <img src="transformer.png">
+</p>
 
 ## Results
