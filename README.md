@@ -12,6 +12,10 @@ Doc2Vec - Document Classication
   <img src="Doc2Vec/confusion_matrix.png" height="800" width="800">
 </p>
 
+## NMTT
+
+Machine Translation - Neural Machine Translation Transformer
+
 ## STSA
 
 ChatBot - Sequence To Sequence Attention
@@ -33,10 +37,6 @@ ChatBot - Sequence To Sequence Attention
 >> こちらこそありがとうございました!
 >quit
 ```
-
-## Transformer
-
-Transformer - 
 
 ## Word2Vec
 
