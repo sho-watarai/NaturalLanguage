@@ -1,9 +1,9 @@
 import cntk as C
 import cntkx as Cx
 import os
+import pandas as pd
 
 from cntk.layers import Dense, Embedding
-from pandas import DataFrame
 
 num_classes = 9
 num_hidden = 100
@@ -93,7 +93,7 @@ if __name__ == "__main__":
     model.save("./doc2vec.model")
     print("Saved model.")
 
-    df = DataFrame(logging)
+    df = pd.DataFrame(logging)
     df.to_csv("./doc2vec.csv", index=False)
     print("Saved logging.")
     
