@@ -1,4 +1,3 @@
-
 import emoji
 import glob
 import re
