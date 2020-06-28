@@ -1,10 +1,10 @@
 import cntk as C
 import os
+import pandas as pd
 import sentencepiece as spm
 
 from cntk.layers import AttentionModel, Dense, Dropout, Embedding, LayerNormalization, LSTM, Recurrence
 from cntkx.learners import CyclicalLearningRate
-from pandas import DataFrame
 
 num_attention = 512
 num_hidden = 512
@@ -190,7 +190,7 @@ if __name__ == "__main__":
     model.save("./stsa.model")
     print("Saved model.")
 
-    df = DataFrame(logging)
+    df = pd.DataFrame(logging)
     df.to_csv("./stsa.csv", index=False)
     print("Saved logging.")
     
