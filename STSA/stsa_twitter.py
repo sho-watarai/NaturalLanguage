@@ -1,11 +1,10 @@
+import datetime
 import json
 import os
 import re
 import reprlib
 import tweepy
 import time
-
-from datetime import datetime
 
 consumer_key = "your_consumer_key"
 consumer_secret = "your_consumer_secret"
@@ -50,7 +49,7 @@ class StreamListenerSTSA(tweepy.StreamListener):
 
     def dump(self):
         pcnt = 0
-        with open("./twitter/%s.txt" % (datetime.now().strftime("%Y%m%d_%H%M%S")), "w", encoding="UTF-8") as f:
+        with open("./twitter/%s.txt" % (datetime.datetime.now().strftime("%Y%m%d_%H%M%S")), "w", encoding="UTF-8") as f:
             (sids, texts), self.queue = zip(*self.queue), []
 
             while True:
