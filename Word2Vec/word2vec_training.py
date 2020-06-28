@@ -1,9 +1,9 @@
 import cntk as C
 import numpy as np
 import os
+import pandas as pd
 
 from cntk.layers import Embedding
-from pandas import DataFrame
 
 is_CBOW = False
 
@@ -130,7 +130,7 @@ if __name__ == "__main__":
         model.save("./skipgram.model")
     print("Saved model.")
 
-    df = DataFrame(logging)
+    df = pd.DataFrame(logging)
     if is_CBOW:
         df.to_csv("./cbow.csv", index=False)
     else:
