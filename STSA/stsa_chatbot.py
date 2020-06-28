@@ -27,7 +27,7 @@ class SentencePiece:
 
 if __name__ == "__main__":
     #
-    # Sentence Piece model
+    # Sentence Piece
     #
     spm_model = SentencePiece(spm_path)
 
