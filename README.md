@@ -9,7 +9,7 @@ BERT -
 Doc2Vec - Document Classication
 
 <p align="center">
-  <img src="Doc2Vec/confusion_matrix.png" height="800" width="800">
+  <img src="Doc2Vec/confusion_matrix.png" height="620" width="565">
 </p>
 
 ## NMTT
