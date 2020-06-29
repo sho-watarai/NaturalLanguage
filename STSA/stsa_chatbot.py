@@ -4,9 +4,9 @@ import sentencepiece as spm
 
 num_word = 32000
 
+UNK = 0
 BOS = 1
 EOS = 2
-UNK = 0
 
 MAX = 70
 
