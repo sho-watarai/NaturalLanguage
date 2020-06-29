@@ -5,9 +5,9 @@ import sentencepiece as spm
 
 from itertools import zip_longest
 
+UNK = 0
 BOS = 1
 EOS = 2
-UNK = 0
 
 dir_file = "./twitter"
 spm_path = "./twitter.model"
