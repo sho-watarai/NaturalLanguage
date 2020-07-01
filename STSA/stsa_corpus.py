@@ -61,7 +61,6 @@ def text_cleaning(s):
     s = re.sub(r"（.*）.*", "", s)  # remove kaomoji
 
     s = re.sub(r"[^ a-z0-9ぁ-んァ-ン一-龥、。！？ー…＆]", "", s)
-    s = re.sub(r"\A[^a-z0-9ぁ-んァ-ン一-龥]*", "", s)
 
     return s
 
