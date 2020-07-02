@@ -99,13 +99,13 @@ def stsa(num_attention, num_hidden, num_stack, num_word):
 def write_text(model, data, encode, decode, spm_model):
     sources = encode * 1
     queries = sources.eval({sources.arguments[0]: data[encode].data})
-    predicts = model.eval({encode: data[encode].data, decode: data[decode].data})
+    outputs = model.eval({encode: data[encode].data, decode: data[decode].data})
 
-    for query, predict in zip(queries, predicts):
+    for query, output in zip(queries, outputs):
         tweet = spm_model.decode([int(q) for q in query.argmax(axis=1)])
         print(tweet, end=" -> ")
 
-        reply = spm_model.decode([int(p) for p in predict.argmax(axis=1)])
+        reply = spm_model.decode([int(p) for p in output.argmax(axis=1)])
         print(reply)
 
     return tweet, reply
