@@ -102,9 +102,9 @@ def stsa_sentencepiece():
     tweet_reply = []
     for idx in range(len(corpus) // 2):
         tweet = spm_model.encode(corpus[2 * idx][:-1])
-        reply.append(EOS)
         
         reply = spm_model.encode(corpus[2 * idx + 1][:-1])
+        reply.insert(0, BOS)
         reply.append(EOS)
 
         tweet_reply.append([tweet, reply])
