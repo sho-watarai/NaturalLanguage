@@ -48,19 +48,23 @@ def text_cleaning(s):
     #
     # reduce redundancy
     #
+    s = re.sub(r"、+", "、", s)
+    s = re.sub(r"。+", "。", s)
     s = re.sub(r"！+", "！", s)
     s = re.sub(r"？？+", "？", s)
     s = re.sub(r"…+", "…", s)
     s = re.sub(r"w+w", "w", s)
-    s = re.sub(r" + ", "", s)
 
     #
     # remove emoji and kaomoji
     #
     s = "".join(["" if c in emoji.UNICODE_EMOJI else c for c in s])  # remove emoji
-    s = re.sub(r"（.*）.*", "", s)  # remove kaomoji
+    s = re.sub(r"（.*）.* ", "", s)  # remove kaomoji
 
-    s = re.sub(r"[^ a-z0-9ぁ-んァ-ン一-龥、。！？ー…＆]", "", s)
+    s = re.sub(r"[^ a-z0-9ぁ-んァ-ン一-龥、。！？ー…／＆]", "", s)
+    s = re.sub(r"\s+\s", "", s)
+    s = re.sub(r"^\s", "", s)
+    s = re.sub(r"\s$", "", s)
 
     return s
 
@@ -70,7 +74,7 @@ def stsa_preprocessing():
 
     file_list = glob.glob(dir_file + "/*.txt")
     for file in file_list:
-        with open(file, encoding="UTF-8") as f:
+        with open(file, encoding="utf-8") as f:
             corpus += f.readlines()
     print("Number of tweet and reply:", len(corpus) // 2)
 
