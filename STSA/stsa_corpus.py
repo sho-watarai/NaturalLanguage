@@ -51,7 +51,7 @@ def text_cleaning(s):
     s = re.sub(r"、+", "、", s)
     s = re.sub(r"。+", "。", s)
     s = re.sub(r"！+", "！", s)
-    s = re.sub(r"？？+", "？", s)
+    s = re.sub(r"？+", "？", s)
     s = re.sub(r"…+", "…", s)
     s = re.sub(r"w+w", "w", s)
 
