@@ -113,7 +113,7 @@ def write_text(model, data, encode, decode, spm_model):
 
 if __name__ == "__main__":
     #
-    # Sentence Piece model
+    # sentence piece
     #
     spm_model = SentencePiece("./twitter.model")
 
