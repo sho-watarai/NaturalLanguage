@@ -143,7 +143,7 @@ if __name__ == "__main__":
     #
     learner = C.adam(model.parameters, lr=0.1, momentum=0.9,
                      gradient_clipping_threshold_per_sample=sample_size, gradient_clipping_with_truncation=True)
-    clr = CyclicalLearningRate(learner, base_lr=1e-4, max_lr=0.1, ramp_up_step_size=step_size, gamma=0.99994,
+    clr = CyclicalLearningRate(learner, base_lr=1e-8, max_lr=0.02, ramp_up_step_size=step_size, gamma=0.99994,
                                minibatch_size=sample_size, lr_policy="exp_range")
     progress_printer = C.logging.ProgressPrinter(tag="Training")
 
