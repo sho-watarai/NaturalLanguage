@@ -92,7 +92,7 @@ def stsa_preprocessing():
 
 def stsa_sentencepiece():
     #
-    # Sentence Piece
+    # sentence piece
     #
     spm_model = SentencePiece(spm_path)
 
