@@ -18,7 +18,7 @@ Machine Translation - Neural Machine Translation Transformer
 
 ## STSA
 
-ChatBot - Sequence To Sequence Attention
+Chat Bot - Sequence To Sequence Attention
 
 ```
 >こんにちは
