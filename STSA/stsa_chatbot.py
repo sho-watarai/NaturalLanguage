@@ -27,23 +27,20 @@ class SentencePiece:
 
 if __name__ == "__main__":
     #
-    # Sentence Piece
+    # sentence piece
     #
     spm_model = SentencePiece(spm_path)
 
     model = C.load_model("./stsa.model")
 
     #
-    # ChatBot Application
+    # Chat Bot application
     #
     while True:
         query = input(">")
         if query == "quit":
             break
-
         query = spm_model.encode(query)
-        query.insert(0, BOS)
-        query.append(EOS)
 
         query = np.identity(num_word, dtype="float32")[query]
         reply = np.identity(num_word, dtype="float32")[BOS].reshape(1, -1)
