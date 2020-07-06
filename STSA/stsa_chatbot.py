@@ -34,7 +34,7 @@ if __name__ == "__main__":
     model = C.load_model("./stsa.model")
 
     #
-    # Chat Bot application
+    # chat bot application
     #
     while True:
         query = input(">")
