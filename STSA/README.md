@@ -1,6 +1,6 @@
 # STSA
 
-ChatBot - Sequence To Sequence Attention
+Chat Bot - Sequence To Sequence Attention
 
 <img src="stsa.png">
 
