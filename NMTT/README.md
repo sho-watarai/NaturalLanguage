@@ -7,3 +7,7 @@ Machine Translation - Neural Machine Translation Transformer
 </p>
 
 ## Results
+
+<img src="NMTT/enc5.png">
+
+<img src="NMTT/enc6.png">
