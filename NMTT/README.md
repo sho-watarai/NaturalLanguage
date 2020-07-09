@@ -8,10 +8,10 @@ Machine Translation - Neural Machine Translation Transformer
 
 ## Results
 
-### Encoder 5 Self-Attention
+### Encoder 5
 
 <img src="enc5.png">
 
-### Encoder 6 Self-Attention
+### Encoder 6
 
 <img src="enc6.png">
