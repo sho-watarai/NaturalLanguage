@@ -18,8 +18,6 @@ Machine Translation - Neural Machine Translation Transformer
 
 <img src="NMTT/enc5.png">
 
-<img src="NMTT/enc6.png">
-
 ## STSA
 
 Chat Bot - Sequence To Sequence Attention
