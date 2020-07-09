@@ -8,6 +8,11 @@ Machine Translation - Neural Machine Translation Transformer
 
 ## Results
 
+```
+>人類は知性を正しく用いて進化しなければならない
+>> i'm not sure if you're gonna be able to get a new job to get to know what you're doing.
+```
+
 ### Encoder 5
 
 <img src="enc5.png">
