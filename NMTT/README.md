@@ -8,6 +8,6 @@ Machine Translation - Neural Machine Translation Transformer
 
 ## Results
 
-<img src="NMTT/enc5.png">
+<img src="enc5.png">
 
-<img src="NMTT/enc6.png">
+<img src="enc6.png">
