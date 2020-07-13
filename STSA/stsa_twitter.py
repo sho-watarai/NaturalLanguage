@@ -88,7 +88,7 @@ if __name__ == "__main__":
     api = tweepy.API(auth)
 
     #
-    # Stream API
+    # stream API
     #
     listener = StreamListenerSTSA(api)
     stream = tweepy.Stream(auth, listener)
