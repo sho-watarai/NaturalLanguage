@@ -138,7 +138,7 @@ def nmtt(encode, decode):
     pe = PositionalEncoding(num_hidden)
 
     #
-    # Encoder
+    # encoder
     #
     h_enc = ja_embed(encode)
     h_enc = h_enc + pe(h_enc)
@@ -154,7 +154,7 @@ def nmtt(encode, decode):
         h_enc = LayerNormalization()(ffn + add_norm)
 
     #
-    # Decoder
+    # decoder
     #
     h_dec = en_embed(decode)
     h_dec = h_dec + pe(h_dec)
@@ -195,7 +195,7 @@ def write_text(model, data, encode, decode, ja_model, en_model):
 
 if __name__ == "__main__":
     #
-    # Sentence Piece model
+    # sentence piece
     #
     en_model = SentencePiece("./english.model")
     ja_model = SentencePiece("./japanese.model")
@@ -257,7 +257,7 @@ if __name__ == "__main__":
         ja, en = write_text(model, data, japanese, english, ja_model, en_model)
 
         #
-        # loss and error logging
+        # loss and ppl logging
         #
         logging["epoch"].append(epoch + 1)
         logging["loss"].append(epoch_loss / num_samples)
