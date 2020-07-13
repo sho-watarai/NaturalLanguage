@@ -42,7 +42,7 @@ def stsa(num_attention, num_hidden, num_stack, num_word):
     embed = Embedding(num_hidden)
 
     #
-    # Encoder
+    # encoder
     #
     with C.layers.default_options(enable_self_stabilization=True):
         lstm_forward = [LSTM(num_hidden // 2, init=C.uniform(0.04)) for _ in range(num_stack)]
@@ -68,7 +68,7 @@ def stsa(num_attention, num_hidden, num_stack, num_word):
             return h_enc
 
     #
-    # Decoder
+    # decoder
     #
     with C.layers.default_options(enable_self_stabilization=True):
         attention = AttentionModel(num_attention, init=C.uniform(0.04), name="attention")
@@ -174,7 +174,7 @@ if __name__ == "__main__":
         twt, rep = write_text(model, data, tweet, reply, spm_model)
 
         #
-        # loss and error logging
+        # loss and ppl logging
         #
         logging["epoch"].append(epoch + 1)
         logging["loss"].append(epoch_loss / num_samples)
