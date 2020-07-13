@@ -13,7 +13,7 @@ num_word = 32000
 
 epoch_size = 100
 minibatch_size = 2048
-num_samples = 973124
+num_samples = 994589
 
 sample_size = 128
 step_size = num_samples // sample_size * 10
@@ -102,13 +102,13 @@ def write_text(model, data, encode, decode, spm_model):
     outputs = model.eval({encode: data[encode].data, decode: data[decode].data})
 
     for query, output in zip(queries, outputs):
-        tweet = spm_model.decode([int(q) for q in query.argmax(axis=1)])
+        que = spm_model.decode([int(q) for q in query.argmax(axis=1)])
         print(tweet, end=" -> ")
 
-        reply = spm_model.decode([int(p) for p in output.argmax(axis=1)])
+        out = spm_model.decode([int(p) for p in output.argmax(axis=1)])
         print(reply)
 
-    return tweet, reply
+    return que, out
 
 
 if __name__ == "__main__":
