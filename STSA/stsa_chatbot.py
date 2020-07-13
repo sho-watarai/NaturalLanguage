@@ -50,7 +50,7 @@ if __name__ == "__main__":
             prob = model.eval({model.arguments[0]: query, model.arguments[1]: np.vstack((reply, dummy))})[0]
             pred = np.identity(num_word, dtype="float32")[prob.argmax(axis=1)[-1]].reshape(1, -1)
             reply = np.concatenate((reply, pred), axis=0)
-            if prob.argmax(axis=1)[-1] in [EOS, 5, 6, 8]:  # ! 。w
+            if prob.argmax(axis=1)[-1] == EOS:
                 break
 
         response = spm_model.decode([int(i) for i in reply.argmax(axis=1)])
