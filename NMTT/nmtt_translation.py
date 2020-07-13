@@ -33,7 +33,7 @@ if __name__ == "__main__":
     model = C.load_model("./nmtt.model")
 
     #
-    # machine translation Application
+    # machine translation
     #
     while True:
         ja = input(">")
