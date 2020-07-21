@@ -2,7 +2,7 @@
 
 ## BERT
 
-BERT - Bidirectional Encoder Representatin Transformer
+BERT - Bidirectional Encoder Representation Transformer
 
 ## Doc2Vec
 
