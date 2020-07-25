@@ -9,8 +9,10 @@ Machine Translation - Neural Machine Translation Transformer
 ## Results
 
 ```
+>調子はどうだい?
+>> how's it going?
 >人類は知性を正しく用いて進化しなければならない
->> i'm not sure if you're gonna be able to get a new job to get to know what you're doing.
+>> humanity is right, and we have to evolve.
 ```
 
 ### Encoder 5
