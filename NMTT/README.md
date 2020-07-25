@@ -13,6 +13,15 @@ Machine Translation - Neural Machine Translation Transformer
 >> how's it going?
 >人類は知性を正しく用いて進化しなければならない
 >> humanity is right, and we have to evolve.
+>人間についてどう思いますか?
+>> do you think you're gonna do it?
+> すまない
+>> i'm sorry.
+>明日の天気はどうですか?
+>> what about the weather?
+>日本語は英語より難しい
+>> the japanese is more difficult than the art.
+>quit
 ```
 
 ### Encoder 5
