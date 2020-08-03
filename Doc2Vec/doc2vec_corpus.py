@@ -65,10 +65,9 @@ def text_cleaning(s):
     # reduce redundancy
     #
     s = re.sub(r"！+", "！", s)
-    s = re.sub(r"？？+", "？", s)
+    s = re.sub(r"？+", "？", s)
     s = re.sub(r"…+", "…", s)
-    s = re.sub(r"w+w", "。", s)
-
+    
     return s
 
 
