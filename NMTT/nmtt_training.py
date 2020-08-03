@@ -15,7 +15,7 @@ num_hidden = 512
 num_stack = 6
 num_word = 32000
 
-epoch_size = 10
+iteration = 300000
 max_seq_len = 97
 minibatch_size = 1024
 num_samples = 2748930
@@ -226,8 +226,8 @@ if __name__ == "__main__":
     #
     learner = C.adam(model.parameters, lr=C.learning_parameter_schedule_per_sample(0.1), momentum=0.9,
                      gradient_clipping_threshold_per_sample=sample_size, gradient_clipping_with_truncation=True)
-    clr = CyclicalLearningRate(learner, base_lr=1e-8, max_lr=0.04, ramp_up_step_size=step_size, gamma=0.99994,
-                               minibatch_size=sample_size, lr_policy="exp_range")
+    clr = CyclicalLearningRate(learner, base_lr=1e-8, max_lr=1e-4,
+                               ramp_up_step_size=step_size, minibatch_size=sample_size)
     progress_printer = C.logging.ProgressPrinter(tag="Training")
 
     trainer = C.Trainer(model, (loss, ppl), [learner], [progress_printer])
@@ -237,33 +237,28 @@ if __name__ == "__main__":
     #
     # training
     #
-    logging = {"epoch": [], "loss": [], "ppl": [], "japanese": [], "english": []}
-    for epoch in range(epoch_size):
-        sample_count = 0
-        epoch_loss = 0
-        epoch_metric = 0
-        while sample_count < num_samples:
-            data = train_reader.next_minibatch(minibatch_size, input_map=input_map)
+    logging = {"step": [], "loss": [], "ppl": [], "japanese": [], "english": []}
+    for step in range(iteration):
+        data = train_reader.next_minibatch(minibatch_size, input_map=input_map)
 
-            trainer.train_minibatch(data)
+        trainer.train_minibatch(data)
 
-            clr.batch_step()
+        clr.batch_step()
 
-            minibatch_count = data[japanese].num_sequences
-            sample_count += minibatch_count
-            epoch_loss += trainer.previous_minibatch_loss_average * minibatch_count
-            epoch_metric += trainer.previous_minibatch_evaluation_average * minibatch_count
+        if step % (iteration // 100) == 0:
+            step_loss = trainer.previous_minibatch_loss_average
+            step_metric = trainer.previous_minibatch_evaluation_average
 
-        ja, en = write_text(model, data, japanese, english, ja_model, en_model)
+            ja, en = write_text(model, data, japanese, english, ja_model, en_model)
 
-        #
-        # loss and ppl logging
-        #
-        logging["epoch"].append(epoch + 1)
-        logging["loss"].append(epoch_loss / num_samples)
-        logging["ppl"].append(epoch_metric / num_samples)
-        logging["japanese"].append(ja)
-        logging["english"].append(en)
+            #
+            # loss and ppl logging
+            #
+            logging["step"].append(step)
+            logging["loss"].append(step_loss)
+            logging["ppl"].append(step_metric)
+            logging["japanese"].append(ja)
+            logging["english"].append(en)
 
         trainer.summarize_training_progress()
 
