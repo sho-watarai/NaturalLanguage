@@ -12,9 +12,9 @@ Doc2Vec - Document Classication
   <img src="Doc2Vec/confusion_matrix.png" height="600" width="600">
 </p>
 
-## GPT
+## JGPT
 
-GPT -
+JGTP - Japanese Generative Pretraining Transformer
 
 ## NMTT
 
