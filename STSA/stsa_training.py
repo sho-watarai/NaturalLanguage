@@ -133,7 +133,7 @@ if __name__ == "__main__":
     input_map = {tweet: train_reader.streams.tweet, reply: train_reader.streams.reply}
 
     #
-    # loss function and perplexity metrics
+    # loss function and perplexity
     #
     loss = C.cross_entropy_with_softmax(model, C.sequence.slice(reply, 1, 0))
     ppl = C.exp(loss)
