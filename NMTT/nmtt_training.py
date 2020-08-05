@@ -218,7 +218,7 @@ if __name__ == "__main__":
     input_map = {japanese: train_reader.streams.japanese, english: train_reader.streams.english}
 
     #
-    # loss function and perplexity metrics
+    # loss function and perplexity
     #
     loss = C.cross_entropy_with_softmax(model, C.sequence.slice(english, 1, 0))
     ppl = C.exp(loss)
