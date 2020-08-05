@@ -92,14 +92,16 @@ def ScaledDotProductAttention(obey_sequence_order=None, max_seq_len=None, name='
     return _inject_name(attention, name)
 
 
-def MultiHeadAttention(num_heads, model_dim, obey_sequence_order=None, max_seq_len=None, name=''):
+def MultiHeadAttention(num_heads, model_dim, key_init=C.glorot_uniform(), query_init=C.glorot_uniform(),
+                       value_init=C.glorot_uniform(), concat_init=C.glorot_uniform(),
+                       obey_sequence_order=None, max_seq_len=None, name=''):
     """ Multi Head Attention """
     head_dim = model_dim // num_heads
 
-    query_linear = [Dense(head_dim) for _ in range(num_heads)]
-    key_linear = [Dense(head_dim) for _ in range(num_heads)]
-    value_linear = [Dense(head_dim) for _ in range(num_heads)]
-    multihead_liner = Dense(model_dim)
+    query_linear = [Dense(head_dim, init=query_init) for _ in range(num_heads)]
+    key_linear = [Dense(head_dim, init=key_init) for _ in range(num_heads)]
+    value_linear = [Dense(head_dim, init=value_init) for _ in range(num_heads)]
+    concat_liner = Dense(model_dim, init=concat_init)
 
     scaled_dot_product_attention = [ScaledDotProductAttention(
         obey_sequence_order, max_seq_len, name=name + "_%d" % (i + 1)) for i in range(num_heads)]
@@ -113,7 +115,7 @@ def MultiHeadAttention(num_heads, model_dim, obey_sequence_order=None, max_seq_l
         attention_outputs = [
             scaled_dot_product_attention[i](q, k, v) for i, (q, k, v) in enumerate(zip(queries, keys, values))]
 
-        return multihead_liner(C.splice(*attention_outputs))
+        return concat_liner(C.splice(*attention_outputs))
 
     return _inject_name(inner, name)
 
