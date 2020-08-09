@@ -136,7 +136,6 @@ def PositionwiseFeedForward(outer_dim, inner_dim, dropout_rate, name=''):
 def nmtt(encode, decode):
     ja_embed = Embedding(num_hidden)
     en_embed, dense = Embedding(num_hidden, enable_weight_tying=True)
-
     pe = PositionalEncoding(num_hidden)
 
     #
