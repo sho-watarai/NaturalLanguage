@@ -126,11 +126,10 @@ def PositionwiseFeedForward(outer_dim, inner_dim, dropout_rate, name=''):
     outer_dense = Dense(outer_dim, name='outer')
     dropout = Dropout(dropout_rate)
 
-    @C.BlockFunction('PositionwiseFeedForward', name)
-    def inner(x):
+    def positionwise_feedforward(x):
         return dropout(outer_dense(C.relu(inner_dense(x))))
 
-    return inner
+    return positionwise_feedforward
 
 
 def nmtt(encode, decode):
