@@ -4,6 +4,10 @@
 
 BERT - Bidirectional Encoder Representation Transformer
 
+<p align="center">
+  <img src="BERT/pretraining.png">
+</p>
+
 ## Doc2Vec
 
 Doc2Vec - Document Classication
