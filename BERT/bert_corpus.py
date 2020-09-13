@@ -116,7 +116,7 @@ def bert_sentencepiece():
                                    bos_id=-1, eos_id=-1, user_defined_symbols="[CLS],[SEP],[MASK]")
 
 
-def masked_lm(word_list):
+def masked_language_model(word_list):
     num_replace = max(1, int(len(word_list) * masked_rate))
 
     masked_idx_list = random.sample(range(len(word_list)), num_replace)
@@ -138,8 +138,8 @@ def masked_lm(word_list):
 
 
 def sentence_order_prediction(sent1, sent2):
-    word_list1, word_list1_masked, masked_idx_list1 = masked_lm(sent1)
-    word_list2, word_list2_masked, masked_idx_list2 = masked_lm(sent2)
+    word_list1, word_list1_masked, masked_idx_list1 = masked_language_model(sent1)
+    word_list2, word_list2_masked, masked_idx_list2 = masked_language_model(sent2)
 
     # first sentence
     word_list1.insert(0, CLS)
