@@ -19,7 +19,8 @@ max_seq_len = 128
 minibatch_size = 512
 num_samples = 36862478
 
-step_size = num_samples // minibatch_size * 10
+sample_size = 12
+step_size = num_samples // sample_size * 10
 
 
 def create_reader(path, is_train):
