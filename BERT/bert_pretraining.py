@@ -229,7 +229,7 @@ if __name__ == "__main__":
             step_loss = trainer.previous_minibatch_loss_average
 
             #
-            # loss and ppl logging
+            # loss logging
             #
             logging["step"].append(step)
             logging["loss"].append(step_loss)
