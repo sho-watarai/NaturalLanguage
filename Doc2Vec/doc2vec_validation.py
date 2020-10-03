@@ -45,5 +45,5 @@ if __name__ == "__main__":
 
         sample_count += data[label].num_sequences
 
-    print("Accuracy {:.2f}%".format((num_samples - error) / num_samples * 100))
+    print("Validation Accuracy {:.2f}%".format((num_samples - error) / num_samples * 100))
     
