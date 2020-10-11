@@ -4,7 +4,7 @@ JGTP - Japanese Generative Pretraining Transformer
 
 
 <p align="center">
-  <img src="autoregressive.png">
+  <img src="autoregression.png">
 </p>
 
 ## Results
