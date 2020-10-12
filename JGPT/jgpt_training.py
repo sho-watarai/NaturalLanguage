@@ -89,7 +89,6 @@ def AlbertMultiHeadAttention(num_heads, model_dim, key_linear, query_linear, val
         obey_sequence_order, max_seq_len, name=name + "_%d" % (i + 1)) for i in range(num_heads)]
 
     @C.Function
-    # @C.BlockFunction('MultiHeadAttention', name)
     def inner(query, key, value):
         queries = [query_linear[i](C.slice(query, 0, i * head_dim, (i + 1) * head_dim)) for i in range(num_heads)]
         keys = [key_linear[i](C.slice(key, 0, i * head_dim, (i + 1) * head_dim)) for i in range(num_heads)]
@@ -100,7 +99,6 @@ def AlbertMultiHeadAttention(num_heads, model_dim, key_linear, query_linear, val
 
         return concat_linear(C.splice(*attention_outputs))
 
-    # return inner
     return _inject_name(inner, name)
 
 
