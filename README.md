@@ -18,7 +18,7 @@ Doc2Vec - Document Classication
 
 ## JGPT
 
-JGTP - Japanese Generative Pretraining Transformer
+JGPT - Japanese Generative Pretraining Transformer
 
 ```
 >人類は
