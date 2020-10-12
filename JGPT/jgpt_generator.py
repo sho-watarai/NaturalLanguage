@@ -1,12 +1,8 @@
 import cntk as C
-import figpy as fp
 import numpy as np
 import sentencepiece as spm
 
 num_word = 32000
-
-fp.rcParams["font.family"] = "Yu Gothic"
-fp.rcParams["font.size"] = 15
 
 BOS = 1
 EOS = 2
