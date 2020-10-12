@@ -5,6 +5,7 @@ import pandas as pd
 import sentencepiece as spm
 
 from cntk.layers import Dense, Embedding, LayerNormalization
+from cntk.layers.blocks import _inject_name
 from cntkx.learners import CyclicalLearningRate
 
 num_head = 12
@@ -43,6 +44,76 @@ def create_reader(path, is_train):
     return C.io.MinibatchSource(C.io.CTFDeserializer(path, C.io.StreamDefs(
         token=C.io.StreamDef(field="token", shape=num_word, is_sparse=True))),
                                 randomize=is_train, max_sweeps=C.io.INFINITELY_REPEAT if is_train else 1)
+
+
+def ScaledDotProductAttention(obey_sequence_order=None, max_seq_len=None, name=''):
+    """ Scaled Dot Product Attention """
+    @C.Function
+    def attention(query, key, value):
+        dk = C.sqrt(C.reduce_sum(C.ones_like(query)))  # dk: [#, *] [1, ] and value = int(dim_of_query)
+
+        unpacked_key = C.sequence.unpack(key, padding_value=0, no_mask_output=True)  # [#] [-3, key_dim]
+        unpacked_value = C.sequence.unpack(value, padding_value=0, no_mask_output=True)  # [#] [-3, value_dim]
+
+        broadcasted_key = C.sequence.broadcast_as(unpacked_key, query)  # [#, *] [-3, key_dim]
+        scaled = C.times_transpose(query, broadcasted_key) / dk
+
+        if obey_sequence_order and max_seq_len:
+            unpacked_scaled, scaled_mask = C.sequence.unpack(scaled, padding_value=0).outputs
+
+            minus_inf = C.constant(-1e+30)
+            valid_connections = C.Constant(np.tril(np.ones((max_seq_len, max_seq_len)), k=0))  # [] [max_seq, max_seq]
+            valid_connections = C.reconcile_dynamic_axes(valid_connections, unpacked_scaled)  # [#] [max_seq, max_seq]
+            valid_connections = C.crop_manual(valid_connections, unpacked_scaled, 0, 0)  # [#] [-3, -3]
+            unpacked_scaled = C.element_select(valid_connections, unpacked_scaled, minus_inf)  # [#] [-3, -3]
+            scaled = C.to_sequence_like(unpacked_scaled, query)  # [#, *] [-3]
+
+        elif obey_sequence_order and not max_seq_len:
+            raise ValueError("max_seq_len must be defined when obey_sequence_order is True")
+
+        attention_weights = C.softmax(scaled, axis=-1)
+        attention_weights = C.layers.Label('attention_weights')(attention_weights)
+
+        attended = C.times(attention_weights, C.sequence.broadcast_as(unpacked_value, query))  # [#, *] [value_dim,]
+        return attended
+
+    return _inject_name(attention, name)
+
+
+def AlbertMultiHeadAttention(num_heads, model_dim, key_linear, query_linear, value_linear, concat_linear,
+                             obey_sequence_order=None, max_seq_len=None, name=''):
+    """ Multi Head Attention Cross-layer parameter sharing """
+    head_dim = model_dim // num_heads
+
+    scaled_dot_product_attention = [ScaledDotProductAttention(
+        obey_sequence_order, max_seq_len, name=name + "_%d" % (i + 1)) for i in range(num_heads)]
+
+    @C.Function
+    # @C.BlockFunction('MultiHeadAttention', name)
+    def inner(query, key, value):
+        queries = [query_linear[i](C.slice(query, 0, i * head_dim, (i + 1) * head_dim)) for i in range(num_heads)]
+        keys = [key_linear[i](C.slice(key, 0, i * head_dim, (i + 1) * head_dim)) for i in range(num_heads)]
+        values = [value_linear[i](C.slice(value, 0, i * head_dim, (i + 1) * head_dim)) for i in range(num_heads)]
+
+        attention_outputs = [
+            scaled_dot_product_attention[i](q, k, v) for i, (q, k, v) in enumerate(zip(queries, keys, values))]
+
+        return concat_linear(C.splice(*attention_outputs))
+
+    # return inner
+    return _inject_name(inner, name)
+
+
+def BertPositionwiseFeedForward(outer_dim, inner_dim, dropout_rate, name=''):
+    inner_dense = Dense(inner_dim, init=C.normal(0.02), name='inner')
+    outer_dense = Dense(outer_dim, init=C.normal(0.02), name='outer')
+    dropout = Dropout(dropout_rate)
+
+    @C.BlockFunction('BertPositionwiseFeedForward', name)
+    def bert_positionwise_feedforward(x):
+        return dropout(outer_dense(Cx.gelu_fast(inner_dense(x))))
+
+    return bert_positionwise_feedforward
 
 
 def jgpt_base(h):
