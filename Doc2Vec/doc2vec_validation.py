@@ -21,17 +21,14 @@ if __name__ == "__main__":
     valid_reader = create_reader("./val_doc2vec_map.txt", is_train=False)
 
     #
-    # model and label
+    # model, label, and error
     #
     model = C.load_model("./doc2vec.model")
     label = C.input_variable(shape=(num_classes,), is_sparse=True)
+    
+    errs = C.classification_error(model, label)
 
     input_map = {model.arguments[0]: valid_reader.streams.words, label: valid_reader.streams.labels}
-
-    #
-    # loss function and error metrics
-    #
-    errs = C.classification_error(model, label)
 
     #
     # validation
