@@ -1,6 +1,6 @@
 # JGPT
 
-JGTP - Japanese Generative Pretraining Transformer
+GPT - Japanese Generative Pretraining Transformer
 
 
 <p align="center">
