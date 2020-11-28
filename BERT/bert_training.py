@@ -169,7 +169,7 @@ if __name__ == "__main__":
     #
     # built-in reader
     #
-    train_reader = create_reader("../../../../../Desktop/train_bert_corpus.txt", is_train=True)
+    train_reader = create_reader("./train_bert_corpus.txt", is_train=True)
 
     #
     # token, segment, answer, index, and label
