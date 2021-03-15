@@ -109,7 +109,7 @@ def BertPositionwiseFeedForward(outer_dim, inner_dim, dropout_rate, name=''):
 
     @C.BlockFunction('BertPositionwiseFeedForward', name)
     def bert_positionwise_feedforward(x):
-        return dropout(outer_dense(Cx.gelu_fast(inner_dense(x))))
+        return outer_dense(dropout(Cx.gelu_fast(inner_dense(x))))
 
     return bert_positionwise_feedforward
 
