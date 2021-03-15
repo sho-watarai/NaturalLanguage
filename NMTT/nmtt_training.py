@@ -127,7 +127,7 @@ def PositionwiseFeedForward(outer_dim, inner_dim, dropout_rate, name=''):
     dropout = Dropout(dropout_rate)
 
     def positionwise_feedforward(x):
-        return dropout(outer_dense(C.relu(inner_dense(x))))
+        return outer_dense(dropout(C.relu(inner_dense(x))))
 
     return positionwise_feedforward
 
