@@ -14,7 +14,7 @@ num_segment = 2
 num_stack = 12
 num_word = 32000
 
-iteration = 3000000
+iteration = 1000000
 max_seq_len = 128
 minibatch_size = 512
 num_samples = 36862478
