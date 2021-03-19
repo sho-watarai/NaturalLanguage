@@ -13,12 +13,12 @@ num_hidden = 1024
 num_stack = 12
 num_word = 32000
 
-iteration = 1000000
+iteration = 300000
 max_seq_len = 128
 minibatch_size = 256
-num_samples = 20216
+num_samples = 23704
 
-sample_size = 16
+sample_size = 12
 step_size = num_samples // sample_size * 10
 
 
