@@ -17,10 +17,10 @@ num_word = 32000
 
 iteration = 300000
 max_seq_len = 97
-minibatch_size = 1024
+minibatch_size = 512
 num_samples = 2748930
 
-sample_size = 128
+sample_size = 48
 step_size = num_samples // sample_size * 10
 
 
