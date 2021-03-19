@@ -9,19 +9,19 @@ Machine Translation - Neural Machine Translation Transformer
 ## Results
 
 ```
->調子はどうだい?
->> how's it going?
->人類は知性を正しく用いて進化しなければならない
->> humanity is right, and we have to evolve.
+>調子はどう?
+>> what do you mean?
+>人類は知性を正しく用いて進化しなければならない。
+>> we need to change our strength.
 >人間についてどう思いますか?
->> do you think you're gonna do it?
-> すまない
+>> what do you think?
+>すまない。
 >> i'm sorry.
 >明日の天気はどうですか?
 >> what about the weather?
->日本語は英語より難しい
->> the japanese is more difficult than the art.
->quit
+>日本語は英語より難しい。
+>> the japanese is more than the japanese.
+> quit
 ```
 
 ### Encoder 5
