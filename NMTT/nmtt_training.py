@@ -92,7 +92,7 @@ def ScaledDotProductAttention(obey_sequence_order=None, max_seq_len=None, name='
     return _inject_name(attention, name)
 
 
-def MultiHeadAttention(num_heads, model_dim, key_init=C.glorot_uniform(), query_init=C.glorot_uniform(),
+def MultiHeadAttention(num_heads, model_dim, query_init=C.glorot_uniform(), key_init=C.glorot_uniform(),
                        value_init=C.glorot_uniform(), concat_init=C.glorot_uniform(),
                        obey_sequence_order=None, max_seq_len=None, name=''):
     """ Multi Head Attention """
