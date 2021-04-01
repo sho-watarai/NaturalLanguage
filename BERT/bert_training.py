@@ -85,7 +85,7 @@ def AlbertEmbedding(hidden_dim, max_seq_length, name=''):
     return bert_embedding
 
 
-def AlbertMultiHeadAttention(num_heads, model_dim, key_linear, query_linear, value_linear, concat_linear,
+def AlbertMultiHeadAttention(num_heads, model_dim, query_linear, key_linear, value_linear, concat_linear,
                              obey_sequence_order=None, max_seq_len=None, name=''):
     """ Multi Head Attention Cross-layer parameter sharing """
     head_dim = model_dim // num_heads
