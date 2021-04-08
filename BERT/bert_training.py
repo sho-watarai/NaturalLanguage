@@ -14,13 +14,13 @@ num_segment = 2
 num_stack = 12
 num_word = 32000
 
-iteration = 1000000
+iteration = 3000000
 max_seq_len = 128
 minibatch_size = 512
 num_samples = 36862478
 
 sample_size = 12
-step_size = num_samples // sample_size * 10
+step_size = num_samples // sample_size * 3
 
 
 def create_reader(path, is_train):
