@@ -14,9 +14,9 @@ masked : 人類は[MASK]を正しく用いて進化しなければならない�
 albert : 人類は生物を正しく用いて進化しなければならない。
 ```
 
-### Encoder 11
+### Encoder 1
 
-<img src="enc11.png">
+<img src="enc1.png">
 
 ### Encoder 12
 
