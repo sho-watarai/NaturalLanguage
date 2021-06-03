@@ -161,7 +161,7 @@ def bert_masked_lm(encode):
 
 def bert_sentence_prediction(pooler):
     """ Sentence Prediction """
-    h = C.sequence.unpack(pooler, padding_value=0, no_mask_output=True)[0, :]
+    h = C.sequence.first(pooler)
     return Dense(1, activation=C.sigmoid, init=C.normal(0.02))(h)
 
 
